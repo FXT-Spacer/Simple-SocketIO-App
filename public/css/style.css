@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.sticky-div {
+    position: fixed;        
+    bottom: 15px;           
+    left: 15px;              
+    background-color: #f8f9fa;
+    font-size: large;
+    font-weight: bold;
+}

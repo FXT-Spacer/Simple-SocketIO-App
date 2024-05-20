@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="https://openfxt.vercel.app/images/favicon.png">
+    <link rel="stylesheet" href="/css/questionPage.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div id="hi_user" class="hd_left">Hi, user</div>
+        <div class="hd_center">ANSWER QUESTION ONLINE</div>
+        <div class="hd_right"><a href="#" id="logout" style="color: white; text-decoration: none;">Logout</a></div>
+    </div>
+    <div class="container">
+        <% if (questions && questions.length> 0) { %>
+            <% questions.forEach(question=> { %>
+                <a class="child" href="/view-question/<%= question.id %>">
+                    <%= question.content %>
+                </a>
+                <% }) %>
+                    <% } else { %>
+                        <p class="child">No questions available.</p>
+                        <% } %>
+    </div>
+    <script src="login_check.js">
+    </script>
+    <script src="/main.js"></script>
+</body>
+
+</html>

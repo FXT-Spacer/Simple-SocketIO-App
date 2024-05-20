@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="https://openfxt.vercel.app/images/favicon.png">
+    <link rel="stylesheet" href="/css/homePage.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div id="hi_user" class="hd_left">Hi, user</div>
+        <div class="hd_center">ANSWER QUESTION ONLINE</div>
+        <div class="hd_right"><a href="#" id="logout" style="color: white; text-decoration: none;">Logout</a></div>
+    </div>
+    <div class="container">
+        <div class="child"><a href="/questions" class="btn">List of questions created</a></div>
+        <div class="child"><a href="/create-question" class="btn">Create online quizzes</a></div>
+        <div class="child"><a href="/join-question" class="btn">Participate in answering</a></div>
+    </div>
+    <script src="login_check.js">
+    </script>
+    <script src="/main.js"></script>
+</body>
+
+</html>

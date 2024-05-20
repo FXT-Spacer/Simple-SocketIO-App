@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Question</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="https://openfxt.vercel.app/images/favicon.png">
+    <link rel="stylesheet" href="/css/createQuestionPage.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div id="hi_user" class="hd_left">Hi, user</div>
+        <div class="hd_center">ANSWER QUESTION ONLINE</div>
+        <div class="hd_right"><a href="#" id="logout" style="color: white; text-decoration: none;">Logout</a></div>
+    </div>
+    <div class="container">
+        <form class="container">
+            <label for="">CREATE QUESTION</label>
+            <input id="content" style="padding: 6px;" class="child" type="text" placeholder="Input question content...">
+            <input id="first_answer" style="padding: 6px;" class="child" type="text"
+                placeholder="Input first answer...">
+            <input id="second_answer" style="padding: 6px;" class="child" type="text"
+                placeholder="Input second answer...">
+            <input id="third_answer" style="padding: 6px;" class="child" type="text"
+                placeholder="Input third answer...">
+            <input id="fourth_answer" style="padding: 6px;" class="child" type="text"
+                placeholder="Input fourth answer...">
+            <input id="point" style="padding: 6px;" class="child" type="number" min="1" max="4"
+                placeholder="Input point answer from 1 to 4" onkeydown="return false;">
+            <button id="register_2" style="min-width: 31vw;" class="child" type="button"
+                onclick="createQuestion()">Create</button>
+        </form>
+    </div>
+    <script>
+        var dataUser;
+        var socket = io();
+        const loginCode = localStorage.getItem("login_code");
+        if (loginCode) {
+            socket.on('connect', () => {
+                socket.on('client_count', (connectedCount) => {
+                    addStickyDiv(connectedCount);
+                });
+                socket.on('add_new_question', (data) => {
+                    showMessage(data.notice);
+                })
+                socket.emit('send_login_code', loginCode);
+                socket.on('result_check_login', (data) => {
+                    if (data.success === false) {
+                        window.location.href = "/login";
+                    } else {
+                        console.log('Login successful!');
+                        dataUser = data.data;
+                        load(data.data)
+                    }
+                });
+            });
+        }
+        else {
+            window.location.href = "/login";
+        }
+
+        function load(data) {
+            let hiUserTitle = document.getElementById('hi_user');
+            hiUserTitle.textContent = 'Hi, ' + data.fullName;
+        }
+
+        function addStickyDiv(connectedCount) {
+            var div = document.createElement('div');
+            div.className = 'sticky-div';
+            div.textContent = 'Traffic: ' + connectedCount;
+            document.body.appendChild(div);
+        }
+
+        function createQuestion() {
+            let content = document.getElementById('content').value;
+            let firstAnswer = document.getElementById('first_answer').value;
+            let secondAnswer = document.getElementById('second_answer').value;
+            let thirdAnswer = document.getElementById('third_answer').value;
+            let fourthAnswer = document.getElementById('fourth_answer').value;
+            let point = document.getElementById('point').value;
+
+            if (!content || !firstAnswer || !secondAnswer || !thirdAnswer || !fourthAnswer || !point) {
+                alert("Please fill in all fields.");
+            } else {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/create-question", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.success === false) {
+                            alert(response.error);
+                        } else if (response.success === true) {
+                            console.log(dataUser.fullName + "added new question with content \'" + content + "\'")
+                            socket.emit('add_question', { addQuestionNotice: dataUser.fullName + " added new question with content \'" + content + "\'" });
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    }
+                };
+                var data = JSON.stringify({
+                    content,
+                    firstAnswer,
+                    secondAnswer,
+                    thirdAnswer,
+                    fourthAnswer,
+                    point
+                });
+                xhr.send(data);
+            }
+        }
+    </script>
+    <script src="/main.js"></script>
+</body>
+
+</html>

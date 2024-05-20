@@ -1,0 +1,146 @@
+{
+  "users": [
+    {
+      "id": "d922",
+      "loginCode": "nguyenhuutai",
+      "fullName": "Nguyễn Hữu Tài",
+      "login": false
+    },
+    {
+      "id": "d234",
+      "loginCode": "nguyenhoangphuc",
+      "fullName": "Nguyễn Hoàng Phúc",
+      "login": false
+    },
+    {
+      "id": "03c3",
+      "loginCode": "caohoathang",
+      "fullName": "Cao Hòa Thắng",
+      "login": false
+    },
+    {
+      "id": "67c0",
+      "loginCode": "nguyengiaphu",
+      "fullName": "Nguyễn Phú",
+      "login": false
+    },
+    {
+      "id": "200c",
+      "loginCode": "vudinh",
+      "fullName": "Vũ Đinh",
+      "login": false
+    },
+    {
+      "id": "d933",
+      "loginCode": "quangthinh",
+      "fullName": "Hà Quang Thinh",
+      "login": false
+    },
+    {
+      "id": "8b43",
+      "loginCode": "caovan",
+      "fullName": "Cao Văn",
+      "login": false
+    }
+  ],
+  "questions": [
+    {
+      "id": "06k1",
+      "content": "Ai là tác giả của bài thơ 'Tây Tiến'?",
+      "answers": [
+        "Quang Dũng",
+        "Hồ Chí Minh",
+        "Tố Hữu",
+        "Xuân Diệu"
+      ],
+      "point": 3
+    },
+    {
+      "id": "07f3",
+      "content": "Năm 2021, Olympic Tokyo được tổ chức vào mùa nào?",
+      "answers": [
+        "Mùa xuân",
+        "Mùa hè",
+        "Mùa thu",
+        "Mùa đông"
+      ],
+      "point": 2
+    },
+    {
+      "id": "08z9",
+      "content": "Loại vitamin nào cần thiết cho quá trình đông máu?",
+      "answers": [
+        "Vitamin A",
+        "Vitamin B",
+        "Vitamin K",
+        "Vitamin D"
+      ],
+      "point": 4
+    },
+    {
+      "id": "09r5",
+      "content": "Lễ hội Songkran là truyền thống của quốc gia nào?",
+      "answers": [
+        "Thái Lan",
+        "Việt Nam",
+        "Malaysia",
+        "Indonesia"
+      ],
+      "point": 3
+    },
+    {
+      "id": "10b2",
+      "content": "Sông Amazon chảy qua bao nhiêu quốc gia?",
+      "answers": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "point": 2
+    },
+    {
+      "id": "11s6",
+      "content": "Đâu là thành phần chính của khí quyển?",
+      "answers": [
+        "Oxy",
+        "Hydro",
+        "Nitơ",
+        "Carbon Dioxide"
+      ],
+      "point": 1
+    },
+    {
+      "id": "12l8",
+      "content": "Động vật nào sống dưới nước nhưng không phải là cá?",
+      "answers": [
+        "Cá sấu",
+        "Hải cẩu",
+        "Rùa biển",
+        "Cá heo"
+      ],
+      "point": 2
+    },
+    {
+      "id": "15p7",
+      "content": "Bộ phim 'Cô gái đến từ hôm qua' dựa trên tác phẩm của nhà văn nào?",
+      "answers": [
+        "Nguyễn Nhật Ánh",
+        "Phan Ôn",
+        "Nguyễn Ngọc Tư",
+        "Bảo Ninh"
+      ],
+      "point": 3
+    }
+  ],
+  "answers": [
+    {
+      "id": "37be",
+      "questionId": "15p7",
+      "loginCode": "caovan",
+      "correct": false,
+      "time": "13:51:14 27-04-2024",
+      "interrogation_time": 2.54
+    }
+  ]
+}

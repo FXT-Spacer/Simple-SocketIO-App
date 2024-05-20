@@ -1,0 +1,22 @@
+{
+  "name": "online_question_answering_application",
+  "version": "1.0.0",
+  "description": "Ứng dụng trả lời câu hỏi trực tuyến sử dụng Socket IO.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "json-server": "^1.0.0-alpha.23",
+    "moment-timezone": "^0.5.45",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

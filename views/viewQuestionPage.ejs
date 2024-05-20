@@ -1,0 +1,165 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Question ID <%= idQuestion %>
+    </title>
+    <link rel="icon" type="image/png" sizes="16x16" href="https://openfxt.vercel.app/images/favicon.png">
+    <link rel="stylesheet" href="/css/viewQuestionPage.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div id="hi_user" class="hd_left">Hi, user</div>
+        <div class="hd_center">ANSWER QUESTION ONLINE</div>
+        <div class="hd_right"><a href="#" id="logout" style="color: white; text-decoration: none;">Logout</a></div>
+    </div>
+    <div class="container">
+        <div class="child1">
+            <div class="header_child1">
+                <div class="title_header_child_1">Question content</div>
+            </div>
+            <div class="child_child">Câu hỏi: <%= questionData.content %>
+            </div>
+            <div class="child_child">
+                <input type="radio" id="option1" name="quiz" value="1">
+                <label for="option1">
+                    <%= questionData.answers[0] %>
+                </label>
+            </div>
+            <div class="child_child">
+                <input type="radio" id="option2" name="quiz" value="2">
+                <label for="option2">
+                    <%= questionData.answers[1] %>
+                </label>
+            </div>
+            <div class="child_child">
+                <input type="radio" id="option3" name="quiz" value="3">
+                <label for="option3">
+                    <%= questionData.answers[2] %>
+                </label>
+            </div>
+            <div class="child_child">
+                <input type="radio" id="option4" name="quiz" value="4">
+                <label for="option4">
+                    <%= questionData.answers[3] %>
+                </label>
+            </div>
+            <button id="answerBtn" class="child_child" type="button" onclick="postAnswer()">Trả lời</button>
+        </div>
+        <div id="p_insert" class="child2" style="padding: 20px;">
+            <div class="header_child2">
+                <div class="title_header_child_2">Anwser history</div>
+            </div>
+
+            <p id="best_interr" style="color: rgb(5, 124, 27);"><%= bestInterrogation %></p>
+
+            <p id="best" style="color: red;">
+                <% if (bestOfAnswer=="" ) { %>
+                    No one has answered correctly or no one has answered this question yet
+                    <% } else { %>
+                        <%= bestOfAnswer%>
+                            <% } %>
+            </p>
+            <% for(let i=0; i < historyAnswer.length; i++) { %>
+                <p>
+                    <%= historyAnswer[i] %>
+                </p>
+                <% } %>
+        </div>
+    </div>
+    <script>
+        var startTime = new Date();
+        const loginCode = localStorage.getItem("login_code");
+        var socket = io();
+        if (loginCode) {
+            socket.on('connect', () => {
+                socket.on('client_count', (connectedCount) => {
+                    addStickyDiv(connectedCount);
+                });
+                socket.on('add_new_question', (data) => {
+                    showMessage(data.notice);
+                })
+                socket.emit('send_login_code', loginCode);
+                socket.on('result_check_login', (data) => {
+                    if (data.success === false) {
+                        window.location.href = "/login";
+                    } else {
+                        console.log('Login successful!');
+                        load(data.data)
+                    }
+                });
+            });
+        }
+        else {
+            window.location.href = "/login";
+        }
+
+        socket.emit('check_answered', { loginCode, idQuestion: "<%- idQuestion %>" });
+
+        socket.on('answered', (data) => {
+            let match = loginCode == data.loginCode && "<%- idQuestion %>" == data.idQuestion
+            if (data.answered && match) {
+                let btn = document.getElementById('answerBtn');
+                btn.disabled = true;
+                btn.textContent = `You answered this question ${data.correct ? 'correctly ' : 'incorrectly'} at ${data.time}.`;
+            }
+        })
+
+        var newBest = ""
+
+        socket.on('new_answer', (data) => {
+            let match = "<%- idQuestion %>" == data.idQuestion;
+            if (match) {
+                let newParagraph = document.createElement("p");
+                newParagraph.textContent = data.newRow;
+                var div = document.getElementById("p_insert");
+                div.appendChild(newParagraph);
+                if ("<%- bestOfAnswer %>" == "" && newBest == "") {
+                    if (data.bestOfAnswer != "") {
+                        let bestP = document.getElementById('best');
+                        newBest = data.bestOfAnswer;
+                        bestP.textContent = newBest;
+                    }
+                }
+                var div2 = document.getElementById("best_interr");
+                div2.textContent = data.bestInterr;
+            }
+        })
+
+        function load(data) {
+            let hiUserTitle = document.getElementById('hi_user');
+            hiUserTitle.textContent = 'Hi, ' + data.fullName;
+        }
+
+        function postAnswer() {
+            let point = 0;
+            var radios = document.getElementsByName('quiz');
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    point = radios[i].value;
+                    break;
+                }
+            }
+            if (point == 0) {
+                alert("Missing answer!")
+            }
+            let endTime = new Date();
+            let timeElapsed = endTime - startTime;
+            let timeInSeconds = parseFloat((timeElapsed / 1000).toFixed(2));
+            socket.emit('post_answer', { loginCode, idQuestion: "<%- idQuestion %>", bestAnswer: "<%- bestOfAnswer %>", point, interrogation: timeInSeconds})
+        }
+        function addStickyDiv(connectedCount) {
+            var div = document.createElement('div');
+            div.className = 'sticky-div';
+            div.textContent = 'Traffic: ' + connectedCount;
+            document.body.appendChild(div);
+        }
+    </script>
+    <script src="/main.js"></script>
+</body>
+
+</html>
